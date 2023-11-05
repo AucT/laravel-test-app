@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,19 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
+
+    public function updateAvatar(Request $request, ImageService $imageService): RedirectResponse
+    {
+        request()->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageService->updateAvatar($request->user(), $request->file('avatar'));
+
+        return back()
+            ->with('success','You have successfully uploaded avatar.');
+    }
+
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
