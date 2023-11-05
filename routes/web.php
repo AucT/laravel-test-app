@@ -37,7 +37,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [HomeController::class, 'index'])->name('admin');
 
-    Route::get('/admin/posts', [PostsController::class, 'index'])->name('admin.posts');
+    Route::get('/admin/posts', [PostsController::class, 'index'])->name('admin.posts.index');
     Route::get('/admin/posts/create', [PostsController::class, 'create'])->name('admin.posts.create');
     Route::post('/admin/posts', [PostsController::class, 'store'])->name('admin.posts.store');
     Route::get('/admin/posts/{post}/edit', [PostsController::class, 'edit'])->name('admin.posts.edit');

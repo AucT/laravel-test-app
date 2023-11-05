@@ -21,7 +21,7 @@ class PostsController extends Controller
     {
         $tags = [
             'title' => 'Admin Posts Index',
-            'active' => 'admin.posts'
+            'active' => 'admin.posts.index'
         ];
 
 
@@ -51,7 +51,7 @@ class PostsController extends Controller
         $data = $request->validated();
         $data['image'] = $unsplashService->getRandomImage();
         auth()->user()->posts()->create($data);
-        return redirect()->route('admin.posts')->with('flash_message', ['type' => 'success', 'message' => 'Successfully created post.']);
+        return redirect()->route('admin.posts.index')->with('flash_message', ['type' => 'success', 'message' => 'Successfully created post.']);
     }
 
     /**
@@ -103,7 +103,7 @@ class PostsController extends Controller
         if (request()->ajax()) {
             return response()->json(['success' => true]);
         }
-        return redirect(route('admin.posts'))->with('flash_message', ['type' => 'success', 'message' => 'Successfully deleted post.']);
+        return redirect(route('admin.posts.index'))->with('flash_message', ['type' => 'success', 'message' => 'Successfully deleted post.']);
 
     }
 }

@@ -78,7 +78,7 @@
                     <a class="nav-link active" aria-current="page" href="{{ route('admin') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.posts') }}">Posts</a>
+                    <a class="nav-link" href="{{ route('admin.posts.index') }}">Posts</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -156,7 +156,7 @@
             <div class="position-sticky pt-3">
                 <div class="list-group mb-3">
                     <a href="{{ route('admin') }}" class="list-group-item list-group-item-action <?=($tags['active'] ?? null) == 'admin' ?'active' : ''?>">Quick actions</a>
-                    <a href="{{ route('admin.posts') }}" class="list-group-item list-group-item-action <?=($tags['active'] ?? null) == 'admin.posts' ?'active' : ''?>">Posts</a>
+                    <a href="{{ route('admin.posts.index') }}" class="list-group-item list-group-item-action <?=($tags['active'] ?? null) == 'admin.posts' ?'active' : ''?>">Posts</a>
                     <a href="{{ route('admin.posts.create') }}" class="list-group-item list-group-item-action <?=($tags['active'] ?? null) == 'admin.posts.create' ?'active' : ''?>">Create Post</a>
 
                 </div>
