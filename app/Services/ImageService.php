@@ -23,13 +23,19 @@ class ImageService
             ->save();
 
 
-        if ($user->avatar) {
-            Storage::delete('public/' .self::AVATARS_FOLDER .'/' . $user->avatar);
-        }
+        $this->deleteAvatar($user->avatar);
 
         $user->avatar = str_replace(self::AVATARS_FOLDER .'/', '', $filePath);
         $user->save();
 
         return $user;
+    }
+
+    public function deleteAvatar(?string $avatar):void
+    {
+        if (!$avatar) {
+            return;
+        }
+        Storage::delete('public/' .self::AVATARS_FOLDER .'/' . $avatar);
     }
 }

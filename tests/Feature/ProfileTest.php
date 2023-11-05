@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Services\ImageService;
-use App\Services\ProfileService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -59,8 +58,7 @@ class ProfileTest extends TestCase
                 'avatar' =>  UploadedFile::fake()->image('avatar.jpg'),
             ]);
 
-        $response
-            ->assertSessionHasNoErrors();
+        $response->assertSessionHasNoErrors();
 
         $user->refresh();
 
@@ -85,6 +83,23 @@ class ProfileTest extends TestCase
         assertEquals(true, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $user->avatar));
         assertEquals(false, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $oldAvatar));
 
+    }
+
+    public function test_profile_avatar_deleted_after_delete_user(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/profile/avatar', [
+                'avatar' => UploadedFile::fake()->image('avatar.jpg'),
+            ]);
+        $response->assertSessionHasNoErrors();
+        $user->refresh();
+        assertEquals(true, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $user->avatar));
+        $user->delete();
+        assertEquals(false, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $user->avatar));
     }
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
