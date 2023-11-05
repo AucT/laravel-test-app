@@ -23,7 +23,7 @@
 
                     <form action="{{ route('admin.posts.image.update', $post->id) }}" method="POST"  class="js-uajax-form" data-target="#image-container">
                         @csrf
-                        <button class="btn btn-outline-secondary my-2">Update image</button>
+                        <button class="btn btn-secondary btn-sm my-2">Update image</button>
                     </form>
 
                     <form method="POST" action="{{ route('admin.posts.update', $post->id) }}">
