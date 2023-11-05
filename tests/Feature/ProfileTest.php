@@ -3,8 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\ImageService;
+use App\Services\ProfileService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use function PHPUnit\Framework\assertEquals;
 
 class ProfileTest extends TestCase
 {
@@ -41,6 +46,45 @@ class ProfileTest extends TestCase
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertNull($user->email_verified_at);
+    }
+
+    public function test_profile_avatar_can_be_updated(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/profile/avatar', [
+                'avatar' =>  UploadedFile::fake()->image('avatar.jpg'),
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors();
+
+        $user->refresh();
+
+        $this->assertNotNull($user->avatar);
+        assertEquals(true, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $user->avatar));
+
+
+        //Second time
+        $oldAvatar = $user->avatar;
+        $response = $this
+            ->actingAs($user)
+            ->post('/profile/avatar', [
+                'avatar' =>  UploadedFile::fake()->image('avatar2.jpg'),
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors();
+
+        $user->refresh();
+
+        $this->assertNotNull($user->avatar);
+        assertEquals(true, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $user->avatar));
+        assertEquals(false, Storage::fileExists('public/' .ImageService::AVATARS_FOLDER .'/' . $oldAvatar));
+
     }
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
