@@ -25,7 +25,7 @@ class PostsController extends Controller
         ];
 
 
-        $items = Post::query()->with('user:id,name')->paginate(10)->withQueryString();;
+        $items = Post::query()->with('user:id,name')->paginate(10)->withQueryString();
 
         return view('admin.posts.index', ['tags' => $tags, 'items' => $items]);
     }
@@ -49,7 +49,7 @@ class PostsController extends Controller
     public function store(PostStoreRequest $request, UnsplashService $unsplashService): RedirectResponse
     {
         $data = $request->validated();
-        $data['image'] = $unsplashService->downloadRandomImageFromUnsplash();
+        $data['image'] = $unsplashService->getRandomImage();
         auth()->user()->posts()->create($data);
         return redirect()->route('admin.posts')->with('flash_message', ['type' => 'success', 'message' => 'Successfully created post.']);
     }
@@ -87,11 +87,11 @@ class PostsController extends Controller
     public function imageUpdate(Post $post, UnsplashService $unsplashService, ImageService $imageService): string
     {
         $oldImage = $post->image;
-        $post->image = $unsplashService->downloadRandomImageFromUnsplash();
+        $post->image = $unsplashService->getRandomImage();
         $post->save();
         $imageService->deleteImage($oldImage);
 
-        return "<img src='" . getFilePath($post->image) . "' alt=''>";
+        return "<img src='{$post->image}' alt=''>";
     }
 
     /**

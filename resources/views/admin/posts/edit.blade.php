@@ -18,7 +18,7 @@
                 <div class="card-body">
 
                     <div id="image-container">
-                        <img src="{{ getFilePath($post->image) }}" alt="">
+                        <img src="{{ $post->image }}" alt="">
                     </div>
 
                     <form action="{{ route('admin.posts.image.update', $post->id) }}" method="POST"  class="js-uajax-form" data-target="#image-container">

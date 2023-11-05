@@ -8,32 +8,30 @@ class UnsplashService
 
 {
     const RANDOM_IMAGE_URL = 'https://source.unsplash.com/random/1000x500';
-    private ImageService $imageService;
 
-    /**
-     * UnsplashService constructor.
-     */
-    public function __construct(ImageService $imageService)
+
+    public function getRandomImage(): string
     {
-        $this->imageService = $imageService;
+        return $this->getFinalRedirectedUrl(self::RANDOM_IMAGE_URL);
     }
 
-
-    public function saveRandomImage(): string
+    public function getFinalRedirectedUrl($url)
     {
-        return $this->imageService->uploadFile(
-            self::RANDOM_IMAGE_URL,
-            ImageService::POSTS_FOLDER
-        );
-    }
+        $ch = curl_init($url);
 
+        // Set the cURL options
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-    public function downloadRandomImageFromUnsplash(): string
-    {
-        $image = file_get_contents(self::RANDOM_IMAGE_URL);
-        $imageName = uniqid() . '.jpg';
-        $fullPath = storage_path("app/public/" . ImageService::POSTS_FOLDER . "/" . $imageName);
-        file_put_contents($fullPath, $image);
-        return ImageService::POSTS_FOLDER . "/" . $imageName;
+        // Execute the cURL request
+        curl_exec($ch);
+
+        // Get the final redirected URL
+        $finalUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+
+        // Close the cURL session
+        curl_close($ch);
+
+        return $finalUrl;
     }
 }

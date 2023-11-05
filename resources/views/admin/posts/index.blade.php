@@ -9,9 +9,9 @@
     @foreach($items as $post)
 
         <div class="card mb-3 js-post-{{ $post->id }}" style="width: 28rem;">
-            <img src="{{ getFilePath($post->image) }}" class="card-img-top" alt="">
+            <img src="{{ $post->image }}" class="card-img-top" alt="">
             <div class="card-body">
-                <div class="text-secondary mb-2">Author: {{ $post->user->name }}</div>
+                <div class="text-secondary mb-2">Author: {{ $post->user->name ?? '' }}</div>
 
                 <h5 class="card-title">{{ $post->title }}</h5>
                 <p class="card-text"> {{ $post->body }}</p>
