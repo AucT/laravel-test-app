@@ -12,6 +12,10 @@ use Intervention\Image\ImageManager;
 class ImageService
 {
     const AVATARS_FOLDER = 'avatars';
+    const POSTS_FOLDER = 'posts';
+
+
+
 
     public function updateAvatar(User $user, UploadedFile $file): User
     {
@@ -31,11 +35,42 @@ class ImageService
         return $user;
     }
 
-    public function deleteAvatar(?string $avatar):void
+    public function deleteAvatar(?string $avatar): void
     {
-        if (!$avatar) {
+        $this->deleteImage(self::AVATARS_FOLDER . '/' . $avatar);
+    }
+
+    public function deleteImage(?string $image): void
+    {
+        if (!$image) {
             return;
         }
-        Storage::delete('public/' .self::AVATARS_FOLDER .'/' . $avatar);
+        Storage::delete("public/$image");
     }
+
+    public function uploadFile(string $url, string $folder): string
+    {
+        $filePath = "$folder/" . uniqid() . '.jpg';
+        $fullPath = storage_path("app/public/$filePath");
+        $this->downloadFile($url, $fullPath);
+        return $filePath;
+    }
+
+    public function downloadFile(string $url, string $path)
+    {
+        $directory = dirname($path);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $ch = curl_init($url);
+        $fp = fopen($path, 'wb');
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+    }
+
+
 }
