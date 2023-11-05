@@ -16,11 +16,11 @@ document.addEventListener('click', function (e) {
             let notificationMessage;
             try {
                 data = JSON.parse(data);
-                notificationMessage = data.message || 'Успішно виконано запит';
+                notificationMessage = data.message || 'Successfully completed request';
             } catch (error) {
-                notificationMessage = (data.message || 'Успішно виконано запит') + '<br>Неможливо розпізнати відповідь';
+                notificationMessage = (data.message || 'Successfully completed request') + '<br>Can\'t parse JSON: contact webmaster';
             }
-            App.success(button, data.message || 'Успішно виконано запит');
+            App.success(button, data.message || 'Successfully completed request');
             button.disabled = false;
             if (button.getAttribute('data-refresh')) {
                 location.reload();

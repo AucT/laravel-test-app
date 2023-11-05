@@ -1,7 +1,7 @@
 var uajax = {
     spinnerHtml: '<div class="spinner-border spinner-border-sm text-light"></div>',
     notificationMessageDisplay: true,
-    notificationMessageDefault: 'Успішно виконано запит',
+    notificationMessageDefault: 'Successfully completed request',
     notificationMessageObject: 'message',
     notificationMessageHeader: 'uajax-note',
     htmlOnError: true,
