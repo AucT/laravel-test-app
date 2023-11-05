@@ -25,7 +25,7 @@ class PostsController extends Controller
         ];
 
 
-        $items = Post::paginate(10);
+        $items = Post::query()->with('user:id,name')->paginate(10)->withQueryString();;
 
         return view('admin.posts.index', ['tags' => $tags, 'items' => $items]);
     }

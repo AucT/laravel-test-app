@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string image
- * @property mixed title
+ * @property string title
+ * @property int user_id
  */
 class Post extends Model
 {

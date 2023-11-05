@@ -11,6 +11,8 @@
         <div class="card mb-3 js-post-{{ $post->id }}" style="width: 28rem;">
             <img src="{{ getFilePath($post->image) }}" class="card-img-top" alt="">
             <div class="card-body">
+                <div class="text-secondary mb-2">Author: {{ $post->user->name }}</div>
+
                 <h5 class="card-title">{{ $post->title }}</h5>
                 <p class="card-text"> {{ $post->body }}</p>
                 <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
@@ -19,4 +21,6 @@
         </div>
 
     @endforeach
+
+    {{ $items->links('vendor.pagination.bootstrap-5') }}
 @endsection

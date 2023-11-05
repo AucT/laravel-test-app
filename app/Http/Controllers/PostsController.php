@@ -12,7 +12,7 @@ class PostsController extends Controller
     public function index()
     {
 
-        $items = Post::paginate(10);
+        $items = Post::query()->paginate(10)->withQueryString();
         return view('posts.index', ['items' => $items]);
 
     }

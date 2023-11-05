@@ -15,7 +15,7 @@
             </div>
         </div>
     @endforeach
-
+        {{ $items->links() }}
     </div>
 
 
