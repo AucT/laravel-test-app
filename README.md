@@ -8,9 +8,11 @@
 6. `php artisan migrate`
 7. `php artisan db:seed`
 8. `php artisan storage:link`
+9. `npm install`
 
 ### Run
 1. `php artisan serve`
+2. `npm run dev`
 
 ### Demo users
 
