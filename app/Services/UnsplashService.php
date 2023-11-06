@@ -19,17 +19,15 @@ class UnsplashService
     {
         $ch = curl_init($url);
 
-        // Set the cURL options
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
 
-        // Execute the cURL request
         curl_exec($ch);
 
         // Get the final redirected URL
         $finalUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
-        // Close the cURL session
         curl_close($ch);
 
         return $finalUrl;
